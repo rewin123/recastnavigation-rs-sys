@@ -94,7 +94,8 @@ fn lib_name_to_file_name(lib_name: &str) -> String {
 
 fn find_recast(
 ) -> Option<(PathBuf, Vec<PathBuf>, HashMap<String, Option<String>>)> {
-  let lib = match pkg_config::Config::new().probe("recastnavigation") {
+  let lib = match pkg_config::Config::new()
+    .probe("recastnavigation") {
     Ok(value) => value,
     Err(error) => {
       println!("pkg_config failed to find RecastNavigation: {}", error);
@@ -146,6 +147,7 @@ fn build_recast() -> (PathBuf, Vec<PathBuf>, HashMap<String, Option<String>>) {
   println!("cargo:rerun-if-changed=recastnavigation");
   let mut lib_builder = Config::new("recastnavigation");
   lib_builder
+    .define("CMAKE_POLICY_VERSION_MINIMUM", "3.5")
     .define("RECASTNAVIGATION_DEMO", "OFF")
     .define("RECASTNAVIGATION_EXAMPLES", "OFF")
     .define("RECASTNAVIGATION_TESTS", "OFF");
